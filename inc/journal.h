@@ -1,5 +1,5 @@
-#ifndef __JOURNAL_H__
-#define __JOURNAL_H__
+#ifndef JOURNAL_H_INCLUDED
+#define JOURNAL_H_INCLUDED
 
 #include <stdio.h>
 #include <conio.h>
