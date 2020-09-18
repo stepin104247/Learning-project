@@ -1,4 +1,4 @@
-#include "journal.h"
+#include <journal.h>
 
 #include <stdio.h>
 #include <conio.h>
