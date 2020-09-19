@@ -13,7 +13,7 @@ struct todos
     char status[1];
 };
 
-
+/*function to add task to do list*/
 void addtodo()
 {   system("cls");
     int cont =1;
@@ -24,7 +24,7 @@ void addtodo()
     struct todos todo;
     printf("\n\n******************ADD YOUR TO DO LIST HERE******************");
     fflush(stdin);
-    printf("\n\nEnter the date(dd-mm-yy) : ");
+    printf("\n\nEnter the date(dd-mm-yy) : "); /* Enter the date which is the name of the file*/
     gets(fname);
 
     fp = fopen(fname,"ab+");
@@ -33,7 +33,7 @@ void addtodo()
         fp= fopen("fname","wb+");
         if (fp== NULL)
         {
-            printf("\n\n ERROR!! TRY AGAIN AFTER SOMETIME");
+            printf("\n\n ERROR!! TRY AGAIN AFTER SOMETIME"); /*system error*/
             getchar();
             return;
         }
@@ -41,14 +41,14 @@ void addtodo()
       
     }
 
-    while(cont)
+    while(cont) /*continue adding list till the user enters 0*/
     {   found =0;
         fflush(stdin);
         rewind(fp);
         printf("\n Enter the TO DO title: ");
         gets(title);
 
-        while(fread(&todo, sizeof(todo),1,fp))
+        while(fread(&todo, sizeof(todo),1,fp)) /*Read the file to see if the todo note already exists*/
         {   
             if (strcmp(title, todo.taskname)==0)
             {
@@ -58,9 +58,9 @@ void addtodo()
 
         }
 
-        if (found==0)
+        if (found==0) /*if the to do note is not found, add as new task*/
         {
-            strcpy(todo.taskname, title);
+            strcpy(todo.taskname, title); /*Enter all the 3 fields data*/
             printf("\nEnter note:");
             fflush(stdin);
             gets(todo.note);
@@ -84,7 +84,7 @@ void addtodo()
 
 }
 
-void mark_done()
+void mark_done() /*function to change the todo status as done or not done*/
 {   
     system("cls");
     FILE * fp;
@@ -103,7 +103,7 @@ void mark_done()
 
         fp = fopen(fname,"rb+");
         if (fp==NULL){
-            printf("\n File does not exist. Press any button to go back to menu.");
+            printf("\n File does not exist. Press any button to go back to menu."); /*check whether the file exists or not*/
             getch();
             return;
         }
@@ -116,7 +116,7 @@ void mark_done()
         fflush(stdin);
         gets(status);
 
-        while(fread(&todo, sizeof(todo),1, fp))
+        while(fread(&todo, sizeof(todo),1, fp)) /*find the task using task note title*/
         {
             if (strcmp(todo.taskname,title)==0)
             {   found=1;
@@ -124,7 +124,7 @@ void mark_done()
             }
         }
 
-        if (found==1)
+        if (found==1)  /*if found delete that record and enter new record with changed status*/
         {
             fseek(fp,-sizeof(todo), SEEK_CUR);
             fwrite(&todo,sizeof(todo),1,fp);
@@ -141,7 +141,7 @@ void mark_done()
 
 }
 
-void viewtodo()
+void viewtodo() /*to view the todo list*/
 {
      system("cls");
     FILE * fp;
@@ -160,7 +160,7 @@ void viewtodo()
 
         fp = fopen(fname,"rb");
         if (fp==NULL){
-            printf("\n File does not exist. Press any button to go back to menu.");
+            printf("\n File does not exist. Press any button to go back to menu."); /*check whether the entered todo list exists or not*/
             getch();
             return;
         }
@@ -170,7 +170,7 @@ void viewtodo()
         switch (menu)
         {
         case (1):
-            while (fread(&todo, sizeof(todo),1,fp))
+            while (fread(&todo, sizeof(todo),1,fp))  /*read all the records inthe file and display it*/
             {
                 printf("\n\nTask: %s",todo.taskname);
                 printf("\n Time: %s",todo.time);
@@ -184,7 +184,7 @@ void viewtodo()
             printf("\n Enter the task name:");
             fflush(stdin);
             gets(title);
-            while(fread(&todo, sizeof(todo),1, fp))
+            while(fread(&todo, sizeof(todo),1, fp)) /*find the record with the mentioned title*/
             {
                 if (strcmp(todo.taskname,title)==0)
                 {   found=1;
@@ -194,7 +194,7 @@ void viewtodo()
 
             if (found==1)
             {
-                printf("\n\nTask: %s",todo.taskname);
+                printf("\n\nTask: %s",todo.taskname); /*if the record with that name is found, display it*/
                 printf("\n Time: %s",todo.time);
                 printf("\n Note: %s ", todo.note);
                 printf("\n Status: %s\n\n",todo.status);
@@ -220,7 +220,7 @@ void viewtodo()
 
 }
 
-void delete_todo()
+void delete_todo() /*to delete the todo list of a particular day*/
 {
     system("cls");
     FILE * fp;
@@ -239,6 +239,6 @@ void delete_todo()
         return;
     }    
     fclose(fp);
-    remove(fname);
+    remove(fname); /*delete the file*/
 
 }
